@@ -9,8 +9,11 @@ from .models import Tweet
 class TweetDetailView(DetailView):
     queryset = Tweet.objects.all()
 
-    def get_object(self):
-        return Tweet.objects.get(id=1)
+    #This is optional if used another key name apart from pk. If used pk django automatically retrieved pk object
+    # def get_object(self):
+    #     print(self.kwargs)
+    #     id = self.kwargs.get("id")
+    #     return Tweet.objects.get(id=id)
 
 class TweetListView(ListView):
     queryset = Tweet.objects.all()
@@ -22,7 +25,7 @@ class TweetListView(ListView):
         return context
 
 # def tweet_detail_view(request, id=1):
-#     obj = Tweet.objects.get(id=id)
+#     obj = tweet.objects.get(id=id)
 #     print(obj)
 #     context = {
 #         "object": obj

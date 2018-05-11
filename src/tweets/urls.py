@@ -6,5 +6,5 @@ from .views import TweetDetailView, TweetListView
 
 urlpatterns = [
     path('', TweetListView.as_view(),name='list'),
-    path('1/', TweetDetailView.as_view(),name='detail'),
+    path('<int:pk>/', TweetDetailView.as_view(),name='detail'),
 ]
