@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView,UpdateView, DeleteView
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Tweet
@@ -40,6 +41,15 @@ class TweetDetailView(DetailView):
 
 class TweetListView(ListView):
     queryset = Tweet.objects.all()
+
+    def get_queryset(self):
+        qs = Tweet.objects.all()
+        print(self.request.GET)
+        query = self.request.GET.get('q',None)
+        if query is not None:
+            qs = Tweet.objects.filter(Q(content__icontains=query) | \
+                                      Q(user__username__icontains=query))
+        return qs
 
     def get_context_data(self, *args, **kwargs):
         context = super(TweetListView, self).get_context_data(*args,**kwargs)
