@@ -1,1 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Tweet{{object.id}} | {{block.super }}  {% endblock title %}
+
+{% block content %}
+
 {{ object }}
+
+{% endblock content %}
