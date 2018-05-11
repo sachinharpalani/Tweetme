@@ -1,8 +1,30 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Tweet
+from .form import TweetModelForm
+from .mixins import FormUserNeededMixin
 # Create your views here.
+
+#CREATE
+
+class TweetCreateView(LoginRequiredMixin,FormUserNeededMixin,CreateView):
+    template_name = 'tweets/create_view.html'
+    form_class = TweetModelForm
+    success_url = '/tweet/create/'
+    login_url = '/admin/'
+
+
+def tweet_create_view(request):
+    form = TweetModelForm(request.POST or None)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.user = request.user
+        instance.save()
+    context = {"form" : form}
+    return render(request,'tweets/create_view.html',context)
 
 #RETRIEVE
 
