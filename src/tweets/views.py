@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView,UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Tweet
 from .form import TweetModelForm
-from .mixins import FormUserNeededMixin
+from .mixins import FormUserNeededMixin,UserOwnerMixin
 # Create your views here.
 
 #CREATE
@@ -17,14 +17,14 @@ class TweetCreateView(LoginRequiredMixin,FormUserNeededMixin,CreateView):
     login_url = '/admin/'
 
 
-def tweet_create_view(request):
-    form = TweetModelForm(request.POST or None)
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.user = request.user
-        instance.save()
-    context = {"form" : form}
-    return render(request,'tweets/create_view.html',context)
+# def tweet_create_view(request):
+#     form = TweetModelForm(request.POST or None)
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         instance.user = request.user
+#         instance.save()
+#     context = {"form" : form}
+#     return render(request,'tweets/create_view.html',context)
 
 #RETRIEVE
 
@@ -48,7 +48,7 @@ class TweetListView(ListView):
 
 # def tweet_detail_view(request, id=1):
 #     obj = tweet.objects.get(id=id)
-#     print(obj)
+
 #     context = {
 #         "object": obj
 #     }
@@ -61,3 +61,11 @@ class TweetListView(ListView):
 #         "object_list": queryset
 #     }
 #     return render(request,"tweets/list_view.html",context)
+
+#UPDATE
+
+class TweetUpdateView(LoginRequiredMixin,UserOwnerMixin,UpdateView):
+    queryset = Tweet.objects.all()
+    form_class = TweetModelForm
+    template_name = 'tweets/update_view.html'
+    success_url = '/tweet/'
