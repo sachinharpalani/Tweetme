@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from tweets.views import TweetListView
 from .views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home,name='home'),
-    path('tweet/', include('tweets.urls'))
+    path('', TweetListView.as_view(),name='home'),
+    path('tweet/', include('tweets.urls')),
+    path('api/tweet/', include('tweets.api.urls', namespace='tweet-api')),
 ]
 
 if settings.DEBUG:

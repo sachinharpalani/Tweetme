@@ -4,6 +4,11 @@
 
 {% block content %}
 
-{% include 'tweets/form.html' with form=form btn_value='Tweet' %}
+<h1> Create Tweet </h1>
+<div class="row">
+    <div class="col-sm-8 coll-sm-offset-2">
+        {% include 'tweets/form.html' with form=form btn_value='Tweet' %}
+    </div>
+</div>
 
 {% endblock content %}

@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'crispy_forms',
     'tweets',
+    'accounts',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +133,5 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static-serve")
 
 #For Production
 # STATIC_ROOT = cdn path
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
